@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache name="appCache" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="true" monitoring="autodetect" dynamicConfig="true">
+	<diskStore path="java.io.tmpdir" />
+	<defaultCache maxEntriesLocalHeap="10000" eternal="false" timeToIdleSeconds="12000" timeToLiveSeconds="12000" overflowToDisk="true" diskSpoolBufferSizeMB="30" maxEntriesLocalDisk="10000000" diskPersistent="false" diskExpiryThreadIntervalSeconds="1200" memoryStoreEvictionPolicy="LRU" statistics="false" />
+	<cache name="wl.default" maxElementsInMemory="10" eternal="false" timeToLiveSeconds="12000" overflowToDisk="true"/>	
+</ehcache>

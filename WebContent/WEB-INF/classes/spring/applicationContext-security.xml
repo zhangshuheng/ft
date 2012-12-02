@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:s="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd   
+    http://www.springframework.org/schema/security   
+    http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:spring/messages_zh_CN" />
+	</bean>
+
+	<s:http pattern="/static/**" security="none" />
+	<s:http pattern="/error/**" security="none" />
+	<s:http pattern="/auth/login.do" security="none" />
+
+	<!-- 登陆 -->
+	<s:http pattern="/**" auto-config="true" access-denied-page="/error/403.jsp">
+		<s:custom-filter ref="usernamePasswordAuthenticationFilter" before="FORM_LOGIN_FILTER" />
+		<s:custom-filter ref="resourceSecurityInterceptor" after="LAST" />
+		<s:custom-filter ref="logoutFilter" before="LOGOUT_FILTER" />
+		<s:form-login username-parameter="username" password-parameter="password" login-processing-url="/login.sec" 
+		default-target-url="/index.do" login-page="/auth/login.do" authentication-failure-url="/auth/login.do" />
+		<s:logout logout-url="/logout.sec" logout-success-url="/auth/login.do" />
+	</s:http>
+
+	<bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<constructor-arg name="logoutSuccessHandler">
+			<bean class="org.wl.core.security.web.authentication.LogoutSuccessHandler">
+				<property name="defaultTargetUrl" value="/auth/login.do" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="handlers">
+			<list>
+				<bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler">
+					<property name="invalidateHttpSession" value="false" />
+				</bean>
+			</list>
+		</constructor-arg>
+		<property name="filterProcessesUrl" value="/logout.sec" />
+	</bean>
+
+	<!-- 带验证码的认证过滤器 -->
+	<bean id="usernamePasswordAuthenticationFilter" class="org.wl.core.security.web.authentication.CaptchaUsernamePasswordAuthenticationFilter">
+		<property name="captchaService" ref="captchaService" />
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="filterProcessesUrl" value="/login.sec" />
+		<property name="usernameParameter" value="username" />
+		<property name="passwordParameter" value="password" />
+		<property name="authenticationSuccessHandler" ref="loginSuccessHandler"/>
+		<property name="authenticationFailureHandler">
+			<bean class="org.wl.core.security.web.authentication.LoginFailureHandler">
+				<property name="defaultFailureUrl" value="/auth/login.do" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="loginSuccessHandler" class="org.wl.core.security.web.authentication.LoginSuccessHandler">
+		<property name="defaultTargetUrl" value="/index.do" />
+	</bean>
+
+	<!-- 认证管理器 -->
+	<s:authentication-manager alias="authenticationManager">
+		<s:authentication-provider ref="userDetailsAuthenticationProvider" />
+	</s:authentication-manager>
+
+	<!-- 验证提供程序 -->
+	<bean id="userDetailsAuthenticationProvider" class="org.wl.core.security.web.authentication.UserDetailsAuthenticationProvider">
+		<property name="daoProvider" ref="daoProvider" />
+		<property name="hideUserNotFoundExceptions" value="false" />
+		<property name="preAuthenticationChecks" ref="preAuthenticationChecks" />
+		<property name="postAuthenticationChecks" ref="postAuthenticationChecks" />
+	</bean>
+
+	<!-- 前置验证 -->
+	<bean id="preAuthenticationChecks" class="org.wl.core.security.userdetails.checker.PreAuthenticationChecks">
+		<property name="userDetailsCheckers">
+			<list>
+				<bean class="org.wl.core.security.userdetails.checker.SamplePreChecker" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- 后置验证 -->
+	<bean id="postAuthenticationChecks" class="org.wl.core.security.userdetails.checker.PostAuthenticationChecks" />
+
+	<bean id="plaintext" class="org.springframework.security.authentication.encoding.PlaintextPasswordEncoder" />
+	<bean id="md5" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
+	<!-- 验证提供程序(扩展是否验证密码) -->
+	<bean id="daoProvider" class="org.wl.core.security.web.authentication.PasswordCheckDaoAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsService" />
+		<property name="hideUserNotFoundExceptions" value="false" />
+		<property name="passwordEncoder" ref="md5" />
+	</bean>
+
+	<!-- 资源安全拦截器 -->
+	<bean id="resourceSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="securityMetadataSource" ref="securityMetadataSource" />
+		<property name="accessDecisionManager" ref="accessDecisionManager" />
+		<property name="observeOncePerRequest" value="false" />
+	</bean>
+
+	<!-- 资源数据源 -->
+	<bean id="securityMetadataSource" class="org.wl.core.security.web.intercept.SecurityMetadataSource">
+		<property name="ehcache" ref="defaultCache" />
+	</bean>
+
+	<!-- 访问决策管理 -->
+	<bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+		<property name="allowIfAllAbstainDecisions" value="false" />
+		<property name="decisionVoters">
+			<list>
+				<bean class="org.springframework.security.access.vote.RoleVoter">
+				</bean>
+				<bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+			</list>
+		</property>
+	</bean>
+
+	<!--JCaptcha验证码服务 -->
+	<bean id="captchaService" class="com.octo.captcha.service.image.DefaultManageableImageCaptchaService">
+		<property name="captchaEngine">
+			<bean class="org.wl.core.util.jcaptcha.DefaultEngine" />
+		</property>
+		<!-- 默认生成的图片180秒过期 , 可另行设置 -->
+		<property name="minGuarantedStorageDelayInSeconds" value="180" />
+	</bean>
+</beans>

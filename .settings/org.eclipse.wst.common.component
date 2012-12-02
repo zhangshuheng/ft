@@ -3,6 +3,7 @@
     <wb-module deploy-name="gitTest">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/config"/>
         <property name="context-root" value="gitTest"/>
         <property name="java-output-path" value="/gitTest/build/classes"/>
     </wb-module>

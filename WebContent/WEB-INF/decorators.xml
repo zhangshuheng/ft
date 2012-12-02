@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/decorators">
+	<!-- 在excludes元素下指定的页面将不会由SiteMesh来装饰 -->
+	<excludes></excludes>
+
+	<decorator name="default" page="default.jsp">
+		<pattern>*.do</pattern>
+	</decorator>
+
+	<decorator name="index" page="index.jsp">
+		<pattern>/index.do</pattern>
+	</decorator>
+	
+</decorators>

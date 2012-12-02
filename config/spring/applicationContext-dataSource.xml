@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:aop="http://www.springframework.org/schema/aop" 
+	   xmlns:tx="http://www.springframework.org/schema/tx" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.1.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.1.xsd" >
+		
+	<!-- ========================================DataSource START====================================== -->
+	<!-- =========简单数据源========= -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="jdbc:postgresql://localhost/test" />
+		<property name="username" value="postgres" />
+		<property name="password" value="admin" />
+	</bean>
+	<!-- =========简单数据源========= -->
+	<!-- ========================================DataSource END====================================== -->
+	
+	<!-- ========================================Mybatis START====================================== -->
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml" />
+		<property name="typeAliasesPackage" value="org.wl" />
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:org/wl/**/*-Mapper.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="org.wl"/>
+        <property name="markerInterface" value="org.wl.core.dao.sqlmapper.SqlMapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlsessionFactory"/>
+    </bean>
+	<!-- ========================================Mybatis END====================================== -->
+	
+	<!-- ========================================事务配置 START====================================== -->
+	
+	
+	<!-- ========================================事务管理器====================================== -->
+	<!-- 由spring管理mybatis的事物 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- ========================================事务管理器====================================== -->
+	
+	
+	<!-- ========================================事务切入点====================================== -->
+	<!-- 注解的方式配置事务，需要在类或者方法上面添加注解：@Transactional -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<!-- 使用tx标签配置的拦截器 -->
+	 <!-- <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED" />
+        </tx:attributes>
+    </tx:advice>
+    
+    <aop:config>
+        <aop:pointcut id="interceptorPointCuts"
+            expression="execution(* org.wl..*TxServiceImpl.*(..))" />
+        <aop:advisor advice-ref="txAdvice"
+            pointcut-ref="interceptorPointCuts" />
+    </aop:config> -->
+	<!-- 使用tx标签配置的拦截器 END -->
+	<!-- ========================================事务切入点====================================== -->
+	
+	<!-- ========================================事务配置 END====================================== -->
+	
+</beans>
