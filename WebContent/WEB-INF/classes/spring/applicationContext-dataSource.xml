@@ -29,7 +29,7 @@
 		<property name="typeAliasesPackage" value="org.wl" />
 		<property name="mapperLocations">
 			<list>
-				<value>classpath:org/wl/**/*-Mapper.xml</value>
+				<value>classpath:org/wl/**/*Mapper.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -37,7 +37,7 @@
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="org.wl"/>
         <property name="markerInterface" value="org.wl.core.dao.sqlmapper.SqlMapper"/>
-        <property name="sqlSessionFactoryBeanName" value="sqlsessionFactory"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 	<!-- ========================================Mybatis END====================================== -->
 	

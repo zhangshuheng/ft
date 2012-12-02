@@ -18,9 +18,9 @@ public class WlUserServiceImpl implements WlUserService {
 	public List<WlUser> getWlUsers(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		WlUserExample example = new WlUserExample();
-		example.createCriteria().andNameNotEqualTo(map.get("name").toString());
-		userMapper.selectByExample(example);
-		return null;
+		
+//		example.createCriteria().andNameNotEqualTo(map.get("name").toString());
+		return userMapper.selectByExample(example);
 	}
 
 	@Override
@@ -39,6 +39,16 @@ public class WlUserServiceImpl implements WlUserService {
 	public void updateWlUser(WlUser WlUser, WlUser oldWlUser) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public WlUser selectByPrimaryKey(Integer userid) {
+		return userMapper.selectByPrimaryKey(userid);
+	}
+
+	@Override
+	public int insertSelective(WlUser record) {
+		return userMapper.insertSelective(record);
 	}
 
 }

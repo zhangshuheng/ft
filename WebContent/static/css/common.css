@@ -1,6 +1,9 @@
 #div-body_underlay {
     background-color:green;
 }
+body{
+	margin: 10px; 
+}
 #loader {
 	padding:0;
 	margin:0;

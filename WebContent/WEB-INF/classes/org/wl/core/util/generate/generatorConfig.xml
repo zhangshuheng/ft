@@ -30,9 +30,14 @@
       <property name="enableSubPackages" value="true" />
     </javaClientGenerator>
 
-    <table tableName="sys_user" domainObjectName="WlUser" >
+    <table tableName="sys_role" domainObjectName="WlRole" >
       <property name="useActualColumnNames" value="true"/>
-      <generatedKey column="userid" sqlStatement="postgresql" identity="true" />
+<!--       <generatedKey column="userid" sqlStatement="postgresql" identity="true" /> -->
+    </table>
+
+    <table tableName="sys_user_role" domainObjectName="WlUserRole" >
+      <property name="useActualColumnNames" value="true"/>
+<!--       <generatedKey column="userid" sqlStatement="postgresql" identity="true" /> -->
     </table>
 
   </context>

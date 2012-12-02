@@ -14,7 +14,13 @@ var dojoConfig = (function(){
 			location: contextPath+"/static/app"
 		},{
 			name: "dgrid",
-			location: contextPath+"/static/js/dgrid"
+			location: contextPath+"/static/js/dgrid/dgrid"
+		},{
+			name: "put-selector",
+			location: contextPath+"/static/js/dgrid/put-selector"
+		},{
+			name: "xstyle",
+			location: contextPath+"/static/js/dgrid/xstyle"
 		}],
 		flickrRequest: {
 			apikey: "8c6803164dbc395fb7131c9d54843627",

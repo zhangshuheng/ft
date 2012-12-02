@@ -20,6 +20,9 @@ public interface WlUserService {
 	 */
 	public List<WlUser> getWlUsers(Map<String, Object> map);
 	
+	public WlUser selectByPrimaryKey(Integer userid);
+	
+	public int insertSelective(WlUser record);
 	/**
 	 * 添加	sys_user  
 	 * @param WlUser WlUser
