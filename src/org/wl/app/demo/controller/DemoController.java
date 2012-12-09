@@ -3,6 +3,7 @@ package org.wl.app.demo.controller;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,12 @@ public class DemoController {
 	
 	@RequestMapping("/listuser")
 	@ResponseBody
-	public List<WlUser> listUser(String start,HttpServletResponse rsp){
-		rsp.addHeader("Content-Range:", "bytes 0-20/120");
+	public List<WlUser> listUser(HttpServletRequest request,String start,HttpServletResponse rsp){
+		if(request.getMethod().equalsIgnoreCase("delete")){
+			rsp.addHeader("Content-Range:", "bytes 0-10/20");
+		}else{
+			rsp.addHeader("Content-Range:", "bytes 0-20/120");
+		}
 		return userservice.getWlUsers(new HashMap<String,Object>());
 	}
 	

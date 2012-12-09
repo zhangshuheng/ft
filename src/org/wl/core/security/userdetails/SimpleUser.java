@@ -53,13 +53,14 @@ public class SimpleUser implements UserDetails{
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("userid", user.getUserid());
 		Set<WlRole> roles = roleService.getUserRoles(map);
-		
-		for(WlRole role : roles) {
-			map.clear();
-			map.put("roleid", role.getRoleid());
-			Set<Resource> tempRes = resourceService.getRoleResources(map);
-			for(Resource res : tempRes) {
-				grantedAuthorities.add(new SimpleGrantedAuthority(res.getName()));
+		if(roles != null){
+			for(WlRole role : roles) {
+				map.clear();
+				map.put("roleid", role.getRoleid());
+				Set<Resource> tempRes = resourceService.getRoleResources(map);
+				for(Resource res : tempRes) {
+					grantedAuthorities.add(new SimpleGrantedAuthority(res.getName()));
+				}
 			}
 		}
 		

@@ -11,43 +11,32 @@
 	font-weight: bold;
 	padding-bottom: 0.25em;
 }
-.dgrid {
-	width: 700px;
-/* 	margin: 10px; */
-}
+
+/* styles for autoheight */
 #userDiv {
-	width: 500px;
-/* 	margin: 10px; */
+	width: 400px;
+	height: auto;
 }
 
-.dgrid-row {
-	height: 22px;
+#userDiv .dgrid-scroller {
+	position: relative;
+	overflow-y: hidden;
 }
-.dgrid-cell {
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	width: 200px; /* force all columns to have SOME width */
+.has-ie-6 #grid .dgrid-scroller {
+	/* IE6 doesn't react properly to hidden on this page for some reason */
+	overflow-y: visible;
 }
-
+#userDiv .dgrid-header-scroll {
+	display: none;
+}
+#userDiv .dgrid-header {
+	right: 0;
+}
 .field-userid {
     width: 80px;
     font-weight: bold;
 }
 
-/* styles for establishing automatic height on the 2nd grid */
-/* #gridDiv { */
-/* 	height: auto; */
-/* } */
-.dgrid-scroller {
-	position: relative;
-	overflow-y: hidden;
-}
- .dgrid-header-scroll { 
- 	display: none; 
- } 
-.dgrid-header {
-	right: 0;
-}
 
 </style>
 </head>
@@ -56,7 +45,7 @@
 <hr>
 <input type="button" id="adduserbtn"/>
 <input type="button" id="refreshlist"/>
-<div id="userDiv" ></div>
+<div id="userDiv" ></div> 
 <div id="adduserdlg" style="display:none">
 	<form data-dojo-type="dijit/form/Form" id="adduserform" action="${pageContext.request.contextPath}/module1/adduser.do" encType="multipart/form-data" >
 		<table>

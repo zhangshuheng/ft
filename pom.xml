@@ -278,7 +278,7 @@
 	    <artifactId>jta</artifactId>
 	    <version>1.1</version>
 	</dependency>
-		
+
 	</dependencies>
 	<build>
 		<finalName>test</finalName>

@@ -48,6 +48,7 @@ require(
 </script>
 </head>
 <body  class="claro">
+<div id="goHome"><a href="${pageContext.request.contextPath}">Home</a></div>
 <div id="loader"><div id="loaderInner"></div></div>
 <div id="processbar"></div>
 <decorator:body/>
