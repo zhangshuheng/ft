@@ -24,9 +24,8 @@
 		default-target-url="/index.do" login-page="/auth/login.do" authentication-failure-url="/auth/login.do" />
 		<s:logout logout-url="/logout.sec" logout-success-url="/auth/login.do" />
 	</s:http>
-	<bean id="sas"
-      class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy"/>
-<!-- 	  <bean id="concurrencyFilter" -->
+	<!-- <bean id="sas" class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy"/>
+ --><!-- 	  <bean id="concurrencyFilter" -->
 <!-- 	      class="org.springframework.security.web.session.ConcurrentSessionFilter"> -->
 <!-- 	    <property name="sessionRegistry" ref="sessionRegistry" /> -->
 <!-- 	    <property name="expiredUrl" value="/auth/login.do?sessionexpired" /> -->
@@ -38,13 +37,13 @@
 <!-- 	    <property name="authenticationManager" ref="authenticationManager" /> -->
 <!-- 	  </bean> -->
 	
-<!-- 	  <bean id="sas" -->
-<!-- 	      class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy"> -->
-<!-- 	    <constructor-arg name="sessionRegistry" ref="sessionRegistry" /> -->
-<!-- 	    <property name="maximumSessions" value="1" /> -->
-<!-- 	  </bean> -->
+	  <bean id="sas"
+	      class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">
+	    <constructor-arg name="sessionRegistry" ref="sessionRegistry" />
+	    <property name="maximumSessions" value="1" />
+	  </bean>
 	
-<!-- 	  <bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" /> -->
+	  <bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
 
 
 	<bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">

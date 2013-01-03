@@ -16,14 +16,14 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 
 import org.wl.core.dao.cache.EhcacheCache;
-import org.wl.core.security.domain.Resource;
-import org.wl.core.security.service.ResourceService;
+import org.wl.core.security.domain.WlResource;
+import org.wl.core.security.service.WlResourceService;
 
 public class SecurityMetadataSource implements FilterInvocationSecurityMetadataSource, InitializingBean {
 	private Lock lock = new ReentrantLock();
 
 	@Autowired
-	private ResourceService resourceService;
+	private WlResourceService resourceService;
 
 	private EhcacheCache ehcache;
 	
@@ -60,9 +60,9 @@ public class SecurityMetadataSource implements FilterInvocationSecurityMetadataS
 				this.lock.lock();
 				resourceMap = new HashMap<String, Collection<ConfigAttribute>>();
 				Map<String,String> map = new HashMap<String,String>();
-				List<Resource> resources = this.resourceService.getResources(map);
-				if(resources == null)resources = new ArrayList<Resource>();
-				for (Resource resource : resources) {
+				List<WlResource> resources = this.resourceService.getResources(map);
+				if(resources == null)resources = new ArrayList<WlResource>();
+				for (WlResource resource : resources) {
 					Collection<ConfigAttribute> configAttributes = new ArrayList<ConfigAttribute>();
 					//以权限名封装为Spring的security Object
 					ConfigAttribute configAttribute = new SecurityConfig(resource.getName());

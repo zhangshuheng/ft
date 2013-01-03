@@ -16,9 +16,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import org.wl.core.security.domain.WlRole;
 import org.wl.core.security.domain.WlUser;
-import org.wl.core.security.domain.Resource;
+import org.wl.core.security.domain.WlResource;
 import org.wl.core.security.service.WlRoleService;
-import org.wl.core.security.service.ResourceService;
+import org.wl.core.security.service.WlResourceService;
 import org.wl.core.spring.SpringContextUtil;
 
 public class SimpleUser implements UserDetails{
@@ -41,7 +41,7 @@ public class SimpleUser implements UserDetails{
 	WlRoleService roleService;
 	
 	@Autowired
-	ResourceService resourceService;
+	WlResourceService resourceService;
 	
 	/**
 	 * 获取用户角色权限(暂只返回角色权限)
@@ -57,8 +57,8 @@ public class SimpleUser implements UserDetails{
 			for(WlRole role : roles) {
 				map.clear();
 				map.put("roleid", role.getRoleid());
-				Set<Resource> tempRes = resourceService.getRoleResources(map);
-				for(Resource res : tempRes) {
+				Set<WlResource> tempRes = resourceService.getRoleResources(map);
+				for(WlResource res : tempRes) {
 					grantedAuthorities.add(new SimpleGrantedAuthority(res.getName()));
 				}
 			}

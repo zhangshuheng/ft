@@ -5,12 +5,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>HomePage</title>
 </head>
 <body>
-
+<a href="${pageContext.request.contextPath}/logout.sec">logout</a><br>
 <c:forEach items="${urls}" var="url"  varStatus="status" >
-	<a href="${pageContext.request.contextPath}${url}">${url}</a><br>
+	<a href="${pageContext.request.contextPath}${url.url}">${url.name}</a>
+	<br>
 </c:forEach>
 </body>
 </html>

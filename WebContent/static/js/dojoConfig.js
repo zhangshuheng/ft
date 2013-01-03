@@ -16,6 +16,9 @@ var dojoConfig = (function(){
 			name: "dgrid",
 			location: contextPath+"/static/js/dgrid/dgrid"
 		},{
+			name: "cbtree",
+			location: contextPath+"/static/js/cbtree"
+		},{
 			name: "put-selector",
 			location: contextPath+"/static/js/dgrid/put-selector"
 		},{
