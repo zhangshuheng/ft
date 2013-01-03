@@ -8,7 +8,7 @@ import org.wl.core.util.web.RequestContext;
 
 @Controller
 @RequestMapping("/auth")
-@RequestMappingDesc(name="认证相关")
+@RequestMappingDesc(name="认证相关-")
 public class AuthController {
 	
 	@RequestMapping("/login")

@@ -5,20 +5,15 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import org.wl.core.security.domain.WlRole;
 import org.wl.core.security.domain.WlUser;
-import org.wl.core.security.domain.WlResource;
-import org.wl.core.security.service.WlRoleService;
 import org.wl.core.security.service.WlResourceService;
+import org.wl.core.security.service.WlRoleService;
 import org.wl.core.spring.SpringContextUtil;
 
 public class SimpleUser implements UserDetails{
@@ -44,25 +39,25 @@ public class SimpleUser implements UserDetails{
 	WlResourceService resourceService;
 	
 	/**
-	 * 获取用户角色权限(暂只返回角色权限)
+	 * 获取用户权限
 	 */
 	public Collection<GrantedAuthority> getAuthorities() {
 		log.debug("获取用户角色权限");
 		List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
 		
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("userid", user.getUserid());
-		Set<WlRole> roles = roleService.getUserRoles(map);
-		if(roles != null){
-			for(WlRole role : roles) {
-				map.clear();
-				map.put("roleid", role.getRoleid());
-				Set<WlResource> tempRes = resourceService.getRoleResources(map);
-				for(WlResource res : tempRes) {
-					grantedAuthorities.add(new SimpleGrantedAuthority(res.getName()));
-				}
-			}
-		}
+//		Map<String,Object> map = new HashMap<String,Object>();
+//		map.put("userid", user.getUserid());
+//		Set<WlRole> roles = roleService.getUserRoles(map);
+//		if(roles != null){
+//			for(WlRole role : roles) {
+//				map.clear();
+//				map.put("roleid", role.getRoleid());
+//				Set<WlResource> tempRes = resourceService.getRoleResources(map);
+//				for(WlResource res : tempRes) {
+//					grantedAuthorities.add(new SimpleGrantedAuthority(res.getName()));
+//				}
+//			}
+//		}
 		
 		
 //		if(ObjectUtil.isNull(user.getUserGroups()))return new ArrayList<GrantedAuthority>();

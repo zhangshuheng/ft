@@ -14,7 +14,7 @@
 
 /* styles for autoheight */
 #userDiv {
-	width: 400px;
+	width: 500px;
 	height: auto;
 }
 
@@ -35,6 +35,9 @@
 .field-userid {
     width: 80px;
     font-weight: bold;
+}
+.field-enable {
+    width: 120px;
 }
 
 

@@ -14,9 +14,9 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
-
 import org.wl.core.dao.cache.EhcacheCache;
 import org.wl.core.security.domain.WlResource;
+import org.wl.core.security.domain.WlResourceExample;
 import org.wl.core.security.service.WlResourceService;
 
 public class SecurityMetadataSource implements FilterInvocationSecurityMetadataSource, InitializingBean {
@@ -59,8 +59,8 @@ public class SecurityMetadataSource implements FilterInvocationSecurityMetadataS
 			try{
 				this.lock.lock();
 				resourceMap = new HashMap<String, Collection<ConfigAttribute>>();
-				Map<String,String> map = new HashMap<String,String>();
-				List<WlResource> resources = this.resourceService.getResources(map);
+				WlResourceExample example = new WlResourceExample();
+				List<WlResource> resources = this.resourceService.selectByExample(example);
 				if(resources == null)resources = new ArrayList<WlResource>();
 				for (WlResource resource : resources) {
 					Collection<ConfigAttribute> configAttributes = new ArrayList<ConfigAttribute>();

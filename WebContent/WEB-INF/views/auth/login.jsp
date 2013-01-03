@@ -14,7 +14,7 @@
 	        </tr>
 	        <tr>
 		        <td> <label for="passwordTextbox">Password:</label></td>
-		        <td> <input id="passwordTextbox" type="password" /></td>
+		        <td> <input id="passwordTextbox" /></td>
 	        </tr>
 	       	<tr><td colspan="2"> <input type="submit" value="登录"/></td></tr>
 		</table>

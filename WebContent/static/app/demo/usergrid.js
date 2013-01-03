@@ -54,6 +54,9 @@ require(["dgrid/Grid", "dgrid/extensions/Pagination", "dgrid/Selection",
 		    navigator.geolocation.getCurrentPosition(function(pos){
 		    	console.log(pos);
 		    });
+		    console.log("navigator.geolocation is true");
+		}else{
+			console.log("navigator.geolocation is false");
 		}
 		//如果是iPAD或者手机设备，则添加TouchScroll
 //		var CustomGrid = declare([Grid, Selection, Pagination,TouchScroll]);

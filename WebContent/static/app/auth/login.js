@@ -16,6 +16,7 @@
 	var passwordTextbox = new TextBox({
 		placeHolder : "Enter password here.",
 		name : "password",
+		type : "password",
 		style : "width:200px"
 	}, "passwordTextbox");
 	passwordTextbox.startup();
